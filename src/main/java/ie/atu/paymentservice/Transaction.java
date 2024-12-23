@@ -23,7 +23,7 @@ public class Transaction {
 
     @NotBlank(message = "Please enter the name for the account")
     private String accountName;
-    @NotNull(message = "Transaction cannot be blank")
+    @NotBlank(message = "Transaction cannot be blank")
     private String transactionType;
     @NotNull(message = "Amount cannot be null")
     private Double amount;
