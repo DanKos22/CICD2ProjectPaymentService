@@ -50,5 +50,12 @@ public class PaymentController {
         return ResponseEntity.ok(payments);
     }
 
+    @PostMapping("/paymentsNotify")
+    public String paymentsNotification(@RequestBody Payment payment){
+        String message = String.format("The following payment has been made from account: %s, transaction: %s, amount: %.2f",
+                payment.getName(), payment.getTransactionType(), payment.getAmount());
+        return message;
+    }
+
 
 }
