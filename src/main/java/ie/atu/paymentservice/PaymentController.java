@@ -57,5 +57,11 @@ public class PaymentController {
         return message;
     }
 
+    @PostMapping("/balanceNotify")
+    public String sendBalance(@RequestBody AccountDetails accountDetails){
+        String balanceMessage = String.format("Details for account: %s, account type: %s, balance: %.2f",
+                accountDetails.getAccountName(), accountDetails.getAccountType(), accountDetails.getAccountBalance());
+        return balanceMessage;
+    }
 
 }
