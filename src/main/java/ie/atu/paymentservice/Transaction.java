@@ -27,8 +27,10 @@ public class Transaction {
     private String transactionType;
     @NotNull(message = "Amount cannot be null")
     private Double amount;
-    @NotNull(message = "Please enter the current balance for the account")
-    private Double balance;
+    @NotBlank(message = "Please enter the date of the transaction")
+    private String paymentDate;
+
+    private String cardId; // reference to the associated card
 
 
 }
