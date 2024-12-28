@@ -41,38 +41,19 @@ public class CardTransactionController {
 
     @PutMapping("/{cardId}")
     public ResponseEntity<String> updateCardWithOrders(@PathVariable String cardId, @RequestBody CardTransactionRequest cardTransactionRequest){
-        if(cardRepository.existsById(cardId)){
+        if(cardRepository.existsById(cardId)) {
             Card card = cardTransactionRequest.getCard();
             card.setId(cardId);
             cardRepository.save(card);
-
-            List<Transaction> transactions = cardTransactionRequest.getTransactions();
-            for(Transaction transaction : transactions){
-                //if(paymentRepository.existsById(cardId)){
-                    transaction.setCardId(card.getId());
-                    paymentRepository.save(transaction);
-                //}
-            }
         }
-
-        /*
-        //List<Transaction> transactions = paymentRepository.findByCardId(cardId);
         List<Transaction> transactions = cardTransactionRequest.getTransactions();
 
-        for(Transaction transaction : transactions){
-            if(paymentRepository.existsById(cardId)){
-                transaction.setCardId(cardId);
-                //Transaction transactions = cardTransactionRequest.getTransactions();
-                //oldTransaction.setAccountName(oldTransaction.getAccountName());
-                //oldTransaction.setTransactionType(oldTransaction.getTransactionType());
-                //oldTransaction.setAmount(oldTransaction.getAmount());
+        for(Transaction transaction : transactions) {
+            if(paymentRepository.existsById(cardId)) {
+                transaction.setId(cardId);
                 paymentRepository.save(transaction);
             }
-            /*else{
-                transaction.setCardId(cardId);
-                paymentRepository.save(transaction);
-            }*/
-        //}
+        }
         return ResponseEntity.ok("Card and transactions updated successfully");
     }
 
