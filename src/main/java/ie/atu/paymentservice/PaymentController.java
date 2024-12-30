@@ -2,6 +2,8 @@ package ie.atu.paymentservice;
 
 
 import jakarta.validation.Valid;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +17,15 @@ public class PaymentController {
     private final PaymentRepository paymentRepository;
     private final PaymentService paymentService;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
 
     List<Transaction> payments = new ArrayList<>();
-    public PaymentController(PaymentRepository paymentRepository, PaymentService paymentService) {
+    public PaymentController(PaymentRepository paymentRepository, PaymentService paymentService, RabbitTemplate rabbitTemplate) {
         this.paymentRepository = paymentRepository;
         this.paymentService = paymentService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping()
@@ -54,6 +60,7 @@ public class PaymentController {
     public String paymentsNotification(@RequestBody Payment payment){
         String message = String.format("The following payment has been made from account: %s, transaction: %s, amount: %.2f",
                 payment.getName(), payment.getTransactionType(), payment.getAmount());
+        rabbitTemplate.convertAndSend("paymentQueue", message);
         return message;
     }
 
