@@ -56,19 +56,27 @@ public class PaymentController {
         return ResponseEntity.ok(payments);
     }
 
-    @PostMapping("/paymentsNotify")
+    /*@PostMapping("/paymentsNotify")
     public String paymentsNotification(@RequestBody Payment payment){
         String message = String.format("The following payment has been made from account: %s, transaction: %s, amount: %.2f",
                 payment.getName(), payment.getTransactionType(), payment.getAmount());
         rabbitTemplate.convertAndSend("paymentQueue", message);
         return message;
-    }
+    }*/
 
     @PostMapping("/balanceNotify")
     public String sendBalance(@RequestBody AccountDetails accountDetails){
         String balanceMessage = String.format("Details for account: %s, account type: %s, balance: %.2f",
                 accountDetails.getAccountName(), accountDetails.getAccountType(), accountDetails.getAccountBalance());
         return balanceMessage;
+    }
+
+    @PostMapping("/something")
+    public String paymentsNotification(@RequestBody Payment payment){
+        String message = String.format("The following payment has been made from account: %s, transaction: %s, amount: %.2f",
+                payment.getName(), payment.getTransactionType(), payment.getAmount());
+        rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE,"paymentQueue", message);
+        return message;
     }
 
 }
