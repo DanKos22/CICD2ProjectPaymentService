@@ -39,6 +39,6 @@ public class RabbitConfig {
 
     @Bean
     public Binding paymentQueueBinding(Queue paymentQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(paymentQueue).to(exchange).with("payment.#");
+        return BindingBuilder.bind(paymentQueue).to(exchange).with("paymentQueue");
     }
 }
