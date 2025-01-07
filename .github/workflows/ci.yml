@@ -24,6 +24,9 @@ jobs:
       - name: Package with maven
         run: mvn clean package
 
+      - name: Run Unit Tests
+        run: mvn test
+
       #Part Two
       #Step to build Docker image
       - name: Build Docker Image
